@@ -136,14 +136,44 @@ function EmptyScoreState() {
 }
 
 // ── Score row ─────────────────────────────────────────────────
-function ScoreRow({ index, score, date, onDelete }: any) {
+function ScoreRow({ index, score, date, rawDate, onUpdate, onDelete }: any) {
   const [hovered, setHovered] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editScore, setEditScore] = useState(score);
+  const [editDate, setEditDate] = useState(rawDate);
+
+  if (isEditing) {
+    return (
+      <div style={{
+        display: "grid", gridTemplateColumns: "40px 1fr 1fr 100px",
+        padding: "8px 0", borderBottom: "1px solid rgba(255,255,255,0.05)",
+        alignItems: "center", gap: 8
+      }}>
+        <span style={{ color: "#6b7280", fontSize: 13 }}>{index}</span>
+        <input 
+          type="number" min={1} max={45} value={editScore} 
+          onChange={e => setEditScore(e.target.value)} 
+          style={{ width: "100%", background: "#1f2937", border: "1px solid #4b5563", color: "#fff", borderRadius: 4, padding: "4px 8px", fontSize: 13, outline: "none" }} 
+        />
+        <input 
+          type="date" value={editDate} 
+          onChange={e => setEditDate(e.target.value)} 
+          style={{ width: "100%", background: "#1f2937", border: "1px solid #4b5563", color: "#fff", borderRadius: 4, padding: "4px 8px", fontSize: 13, outline: "none" }} 
+        />
+        <div style={{ textAlign: "right" }}>
+          <button onClick={() => { onUpdate(Number(editScore), editDate); setIsEditing(false); }} style={{ color: "#22c55e", fontSize: 12, cursor: "pointer", background: "none", border: "none", marginRight: 8, padding: 0 }}>Save</button>
+          <button onClick={() => setIsEditing(false)} style={{ color: "#9ca3af", fontSize: 12, cursor: "pointer", background: "none", border: "none", padding: 0 }}>Cancel</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: "grid", gridTemplateColumns: "40px 1fr 1fr 80px",
+        display: "grid", gridTemplateColumns: "40px 1fr 1fr 100px",
         padding: "10px 0", borderBottom: "1px solid rgba(255,255,255,0.05)",
         background: hovered ? "rgba(255,255,255,0.02)" : "transparent",
         transition: "background 0.2s",
@@ -153,12 +183,20 @@ function ScoreRow({ index, score, date, onDelete }: any) {
       <span style={{ color: "#6b7280", fontSize: 13 }}>{index}</span>
       <span style={{ color: "#e5e7eb", fontWeight: 600 }}>{score}</span>
       <span style={{ color: "#9ca3af", fontSize: 13 }}>{date}</span>
-      <span
-        onClick={onDelete}
-        style={{ color: "#ef4444", fontSize: 12, cursor: "pointer", textAlign: "right" }}
-      >
-        Delete
-      </span>
+      <div style={{ textAlign: "right" }}>
+        <span
+          onClick={() => setIsEditing(true)}
+          style={{ color: "#60a5fa", fontSize: 12, cursor: "pointer", marginRight: 12 }}
+        >
+          Edit
+        </span>
+        <span
+          onClick={onDelete}
+          style={{ color: "#ef4444", fontSize: 12, cursor: "pointer" }}
+        >
+          Delete
+        </span>
+      </div>
     </div>
   );
 }
@@ -229,7 +267,7 @@ function CardLabel({ icon, label }: any) {
 // ════════════════════════════════════════════════════════════
 export default function Dashboard() {
   const { user } = useAuthStore();
-  const { scores, fetchScores, addScore, deleteScore } = useScoreStore();
+  const { scores, fetchScores, addScore, updateScore, deleteScore } = useScoreStore();
   const { wins, totalWon, fetchWins } = useWinnerStore();
 
   const [showPlanPicker, setShowPlanPicker] = useState(false);
@@ -460,7 +498,7 @@ export default function Dashboard() {
           {scores.length > 0 ? (
             <div>
               <div style={{
-                display: "grid", gridTemplateColumns: "40px 1fr 1fr 80px",
+                display: "grid", gridTemplateColumns: "40px 1fr 1fr 100px",
                 padding: "6px 0", borderBottom: "1px solid rgba(255,255,255,0.08)",
                 marginBottom: 4,
               }}>
@@ -474,6 +512,8 @@ export default function Dashboard() {
                   index={i + 1} 
                   score={s.score} 
                   date={new Date(s.entry_date).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' })} 
+                  rawDate={s.entry_date}
+                  onUpdate={(newScore: number, newDate: string) => updateScore(s.id, { score: newScore, entry_date: newDate })}
                   onDelete={() => deleteScore(s.id)} 
                 />
               ))}
