@@ -26,7 +26,7 @@ export default function AdminDraws() {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post('/admin/draws', { drawMonth, drawType: 'random' });
+      await api.post('/admin/draws', { draw_month: drawMonth, draw_type: 'random' });
       toast.success('Draw created successfully');
       setDrawMonth('');
       fetchDraws();

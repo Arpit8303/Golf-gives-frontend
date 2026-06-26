@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import AdminUsers from '../components/admin/AdminUsers';
 import AdminCharities from '../components/admin/AdminCharities';
 import AdminDraws from '../components/admin/AdminDraws';
 import AdminWinners from '../components/admin/AdminWinners';
@@ -147,93 +148,8 @@ export default function AdminDashboard() {
 
           {/* Tab Content Area */}
           <div className="bg-[#121212] rounded-xl border border-white/5 p-8 min-h-[400px]">
-            {activeTab === 'users' && (
-              <div>
-                <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-lg font-semibold">Users</h2>
-                  <div className="flex gap-4">
-                    <input type="text" placeholder="Search users..." className="bg-[#1a1a1a] border border-white/5 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-white/20" />
-                    <button className="px-4 py-2 rounded-lg border border-white/10 hover:bg-white/5 text-sm font-semibold transition-colors">
-                      Export CSV
-                    </button>
-                  </div>
-                </div>
+            {activeTab === 'users' && <AdminUsers />}
 
-                <div className="w-full text-left">
-                  <div className="grid grid-cols-12 text-xs text-gray-500 border-b border-white/5 pb-3 mb-3 font-semibold uppercase tracking-wider">
-                    <div className="col-span-2">Name</div>
-                    <div className="col-span-3">Email</div>
-                    <div className="col-span-2">Plan</div>
-                    <div className="col-span-2">Status</div>
-                    <div className="col-span-1">Charity %</div>
-                    <div className="col-span-2 text-right">Actions</div>
-                  </div>
-
-                  <div className="space-y-1">
-                    {/* Dummy Data matching screenshot */}
-                    <div className="grid grid-cols-12 items-center text-sm py-3 border-b border-white/5">
-                      <div className="col-span-2 font-semibold">Arpit Sharma</div>
-                      <div className="col-span-3 text-gray-400">arpit@example.com</div>
-                      <div className="col-span-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-400 border border-purple-500/30">YEARLY</span>
-                      </div>
-                      <div className="col-span-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">ACTIVE</span>
-                      </div>
-                      <div className="col-span-1 text-gray-300">20%</div>
-                      <div className="col-span-2 flex justify-end gap-2">
-                        <button className="p-1.5 rounded bg-[#1a1a1a] border border-white/5 hover:bg-white/10 text-gray-400 transition-colors flex items-center gap-1 text-xs">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg> Edit
-                        </button>
-                        <button className="p-1.5 rounded bg-[#1a1a1a] border border-white/5 hover:bg-white/10 text-gray-400 transition-colors flex items-center gap-1 text-xs">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg> View
-                        </button>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-12 items-center text-sm py-3 border-b border-white/5">
-                      <div className="col-span-2 font-semibold">Priya Mehta</div>
-                      <div className="col-span-3 text-gray-400">priya@example.com</div>
-                      <div className="col-span-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#1a1a1a] text-gray-400 border border-white/10">MONTHLY</span>
-                      </div>
-                      <div className="col-span-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">ACTIVE</span>
-                      </div>
-                      <div className="col-span-1 text-gray-300">15%</div>
-                      <div className="col-span-2 flex justify-end gap-2">
-                         <button className="p-1.5 rounded bg-[#1a1a1a] border border-white/5 hover:bg-white/10 text-gray-400 transition-colors flex items-center gap-1 text-xs">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg> Edit
-                        </button>
-                        <button className="p-1.5 rounded bg-[#1a1a1a] border border-white/5 hover:bg-white/10 text-gray-400 transition-colors flex items-center gap-1 text-xs">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg> View
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-12 items-center text-sm py-3 border-b border-white/5">
-                      <div className="col-span-2 font-semibold">Ravi Singh</div>
-                      <div className="col-span-3 text-gray-400">ravi@example.com</div>
-                      <div className="col-span-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-[#1a1a1a] text-gray-400 border border-white/10">MONTHLY</span>
-                      </div>
-                      <div className="col-span-2">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-500/20 text-red-400 border border-red-500/30">LAPSED</span>
-                      </div>
-                      <div className="col-span-1 text-gray-300">10%</div>
-                      <div className="col-span-2 flex justify-end gap-2">
-                         <button className="p-1.5 rounded bg-[#1a1a1a] border border-white/5 hover:bg-white/10 text-gray-400 transition-colors flex items-center gap-1 text-xs">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg> Edit
-                        </button>
-                        <button className="p-1.5 rounded bg-[#1a1a1a] border border-white/5 hover:bg-white/10 text-gray-400 transition-colors flex items-center gap-1 text-xs">
-                          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg> Suspend
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {activeTab === 'draws' && <AdminDraws />}
             {activeTab === 'charities' && <AdminCharities />}
