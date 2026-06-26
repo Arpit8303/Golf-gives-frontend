@@ -1,6 +1,6 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:5000/api/v1';
+const API_URL = (import.meta as any).env.VITE_API_URL ?? 'http://localhost:5000/api/v1';
 
 // In-memory access token (never stored in localStorage — only refresh cookie is persisted)
 let accessToken: string | null = null;

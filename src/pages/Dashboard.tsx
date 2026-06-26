@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthStore } from '../store/authStore';
 import { useScoreStore } from '../store/scoreStore';
 import { useWinnerStore } from '../store/winnerStore';
