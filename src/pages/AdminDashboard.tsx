@@ -3,11 +3,12 @@ import AdminUsers from '../components/admin/AdminUsers';
 import AdminCharities from '../components/admin/AdminCharities';
 import AdminDraws from '../components/admin/AdminDraws';
 import AdminWinners from '../components/admin/AdminWinners';
+import AdminSettings from '../components/admin/AdminSettings';
 import { Link } from 'react-router-dom';
 import api from '../lib/axios';
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'users' | 'draws' | 'charities' | 'winners' | 'reports'>('users');
+  const [activeTab, setActiveTab] = useState<'users' | 'draws' | 'charities' | 'winners' | 'reports' | 'settings'>('users');
   const [reports, setReports] = useState({ totalUsers: 0, totalPrizePool: 0, totalDonated: 0, activeSubscribers: 0 });
 
   useEffect(() => {
@@ -74,7 +75,10 @@ export default function AdminDashboard() {
 
           <div>
             <div className="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-3 px-3">System</div>
-            <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+            <button 
+              onClick={() => setActiveTab('settings')}
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${activeTab === 'settings' ? 'bg-white/5 text-white border-l-2 border-purple-500 rounded-l-none pl-2.5' : 'text-gray-400 hover:text-white hover:bg-white/5'}`}
+            >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               Settings
             </button>
@@ -154,6 +158,7 @@ export default function AdminDashboard() {
             {activeTab === 'draws' && <AdminDraws />}
             {activeTab === 'charities' && <AdminCharities />}
             {activeTab === 'winners' && <AdminWinners />}
+            {activeTab === 'settings' && <AdminSettings />}
             {activeTab === 'reports' && <div className="text-gray-400">Advanced reports UI coming soon...</div>}
           </div>
         </div>
