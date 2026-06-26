@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useAuthStore } from '../store/authStore';
 import AdminCharities from '../components/admin/AdminCharities';
 import AdminDraws from '../components/admin/AdminDraws';
 import AdminWinners from '../components/admin/AdminWinners';
@@ -7,7 +6,6 @@ import { Link } from 'react-router-dom';
 import api from '../lib/axios';
 
 export default function AdminDashboard() {
-  const { user } = useAuthStore();
   const [activeTab, setActiveTab] = useState<'users' | 'draws' | 'charities' | 'winners' | 'reports'>('users');
   const [reports, setReports] = useState({ totalUsers: 0, totalPrizePool: 0, totalDonated: 0, activeSubscribers: 0 });
 
