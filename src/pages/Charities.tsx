@@ -10,8 +10,8 @@ export default function Charities() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredCharities = charities.filter(c => 
-    c.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    c.description.toLowerCase().includes(searchQuery.toLowerCase())
+    (c.name || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (c.description || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   useEffect(() => {
