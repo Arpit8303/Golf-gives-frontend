@@ -369,7 +369,7 @@ export default function Dashboard() {
                 <div style={{ color: "#6b7280", fontSize: 12 }}>Selected charity</div>
               </div>
             </div>
-            <CharitySlider initialPercent={user?.charity_percentage ?? 35} yearlyAmount={yearlyAmount} onChange={(val: number) => {
+            <CharitySlider initialPercent={user?.charity_percentage ?? 35} yearlyAmount={yearlyAmount} onChange={() => {
               // Debounced API call placeholder
             }} />
           </Card>
