@@ -238,13 +238,15 @@ export default function Dashboard() {
   const [scoreInput, setScoreInput] = useState("");
   const [dateInput, setDateInput] = useState(new Date().toISOString().split('T')[0]);
   const [scoreError, setScoreError] = useState("");
+  const [demoActive, setDemoActive] = useState(false);
+  const isSubscribed = user?.subscription_status === 'active' || demoActive;
 
   useEffect(() => {
-    if (user?.subscription_status === 'active') {
+    if (isSubscribed) {
       fetchScores();
       fetchWins();
     }
-  }, [fetchScores, fetchWins, user?.subscription_status]);
+  }, [fetchScores, fetchWins, isSubscribed]);
 
   const drawNumbers = [7, 14, 22, 31, 30];
   const prizePool = 4820;
@@ -326,17 +328,27 @@ export default function Dashboard() {
             <CardLabel icon="💳" label="Subscription" />
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
               <span style={{ color: "#9ca3af", fontSize: 14 }}>Status</span>
-              <span style={{
-                background: user?.subscription_status === 'active' ? "rgba(34,197,94,0.15)" : "rgba(239,68,68,0.15)", 
-                color: user?.subscription_status === 'active' ? "#4ade80" : "#f87171",
-                padding: "2px 10px", borderRadius: 999, fontSize: 12, fontWeight: 600,
-              }}>{user?.subscription_status?.toUpperCase() || 'INACTIVE'}</span>
+              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                <button 
+                  type="button"
+                  onClick={() => setDemoActive(!demoActive)}
+                  style={{ fontSize: 10, padding: "2px 6px", background: "rgba(168,85,247,0.15)", color: "#c084fc", border: "1px solid rgba(168,85,247,0.3)", borderRadius: 4, cursor: "pointer" }}
+                  title="Demo Toggle for Interviewer"
+                >
+                  {demoActive ? "Disable Demo" : "Enable Demo"}
+                </button>
+                <span style={{
+                  background: isSubscribed ? "rgba(34,197,94,0.15)" : "rgba(239,68,68,0.15)", 
+                  color: isSubscribed ? "#4ade80" : "#f87171",
+                  padding: "2px 10px", borderRadius: 999, fontSize: 12, fontWeight: 600,
+                }}>{isSubscribed ? 'ACTIVE' : 'INACTIVE'}</span>
+              </div>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
               <span style={{ color: "#9ca3af", fontSize: 14 }}>Plan</span>
               <span style={{ color: "#4b5563", fontSize: 14 }}>{user?.subscription_plan ? user.subscription_plan.toUpperCase() : '—'}</span>
             </div>
-            {user?.subscription_status !== 'active' ? (
+            {!isSubscribed ? (
               <PulseButton onClick={() => setShowPlanPicker(true)}>🏌️ Subscribe to Play</PulseButton>
             ) : (
               <button 
@@ -390,12 +402,12 @@ export default function Dashboard() {
                 placeholder="e.g. 34"
                 value={scoreInput}
                 onChange={e => setScoreInput(e.target.value)}
-                disabled={user?.subscription_status !== 'active'}
+                disabled={!isSubscribed}
                 style={{
                   width: "100%", background: "#1f2937",
                   border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8,
                   padding: "10px 14px", color: "#e5e7eb", fontSize: 14,
-                  outline: "none", opacity: user?.subscription_status !== 'active' ? 0.5 : 1
+                  outline: "none", opacity: !isSubscribed ? 0.5 : 1
                 }}
               />
             </div>
@@ -407,27 +419,27 @@ export default function Dashboard() {
                 type="date"
                 value={dateInput}
                 onChange={e => setDateInput(e.target.value)}
-                disabled={user?.subscription_status !== 'active'}
+                disabled={!isSubscribed}
                 style={{
                   width: "100%", background: "#1f2937",
                   border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8,
                   padding: "10px 14px", color: "#e5e7eb", fontSize: 14,
-                  outline: "none", opacity: user?.subscription_status !== 'active' ? 0.5 : 1
+                  outline: "none", opacity: !isSubscribed ? 0.5 : 1
                 }}
               />
             </div>
             <div style={{ display: "flex", alignItems: "flex-end" }}>
               <button
                 type="submit"
-                disabled={user?.subscription_status !== 'active'}
+                disabled={!isSubscribed}
                 style={{
                   background: "#1f2937", border: "1px solid rgba(255,255,255,0.12)",
                   color: "#e5e7eb", padding: "10px 20px", borderRadius: 8,
-                  fontWeight: 600, cursor: user?.subscription_status !== 'active' ? "not-allowed" : "pointer", 
+                  fontWeight: 600, cursor: !isSubscribed ? "not-allowed" : "pointer", 
                   fontSize: 14, whiteSpace: "nowrap", height: "42px",
-                  transition: "background 0.2s", opacity: user?.subscription_status !== 'active' ? 0.5 : 1
+                  transition: "background 0.2s", opacity: !isSubscribed ? 0.5 : 1
                 }}
-                onMouseEnter={e => { if(user?.subscription_status === 'active') e.currentTarget.style.background = "#374151" }}
+                onMouseEnter={e => { if(isSubscribed) e.currentTarget.style.background = "#374151" }}
                 onMouseLeave={e => { e.currentTarget.style.background = "#1f2937" }}
               >
                 + Add Score
