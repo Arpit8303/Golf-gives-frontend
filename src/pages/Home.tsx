@@ -35,9 +35,9 @@ export default function Home() {
                 <Link to="/register" className="btn-primary w-full sm:w-auto px-8 py-4 text-lg">
                   Subscribe to play
                 </Link>
-                <Link to="#how-it-works" className="btn-secondary w-full sm:w-auto px-8 py-4 text-lg bg-surface hover:bg-surface/80 border border-border">
+                <a href="#how-it-works" className="btn-secondary w-full sm:w-auto px-8 py-4 text-lg bg-surface hover:bg-surface/80 border border-border flex items-center justify-center">
                   How it works
-                </Link>
+                </a>
               </div>
 
               {/* Stats Bar */}
